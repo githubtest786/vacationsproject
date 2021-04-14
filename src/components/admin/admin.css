@@ -1,0 +1,26 @@
+.vacationBox {
+    border: 1px solid black;
+    width: 50%;
+    background-color: lightseagreen;
+    float: left;
+}
+
+.checkBox {
+    float: right;
+}
+
+.vacationBoxDetails {
+    text-align: center;
+}
+
+.edit {
+    float: right;
+}
+
+.delete {
+    float: left;
+}
+
+.vacations {
+    background-color: white;
+}
