@@ -15,6 +15,9 @@ export function reduce(oldAppState: AppState, action: Action): AppState {
         case ActionType.userType:
             newAppState.userType = action.payload;
             break;
+        case ActionType.updateVacations:
+            newAppState.updateVacations = action.payload;
+            break;
     }
 
     //After returning the new state, it's being published to all subscribers.

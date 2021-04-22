@@ -3,11 +3,12 @@ import "./addvacation.css";
 // import { VacationDetails } from '../../models/VacationDetails';
 import axiosService from '../../services/axiosService';
 import { SuccessfulVacationResponse } from '../../models/SuccessfulVacationResponse';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import { TakenDescriptions } from '../../models/TakenDescriptions';
 import { store } from '../../redux/store';
+import socket from '../../services/socketService';
 
-const socket = io('http://localhost:3002');
+// const socket = io('http://localhost:3002');
 
 interface AddVacationTemplate {
     description: string,

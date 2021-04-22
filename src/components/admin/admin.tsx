@@ -6,8 +6,9 @@ import { NavLink } from 'react-router-dom';
 import { store } from '../../redux/store';
 import { ActionType } from '../../redux/action-type';
 import { SuccessfulVacationResponse } from '../../models/SuccessfulVacationResponse';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import { UserType } from '../../models/UserType';
+import socket from '../../services/socketService';
 
 interface AdminTemplate {
     vacations: Vacations[];
@@ -15,7 +16,7 @@ interface AdminTemplate {
 
 export default class Admin extends Component<any, AdminTemplate> {
 
-    socket = io('http://localhost:3002');
+    // socket = io('http://localhost:3002');
 
     public constructor(props: any) {
         super(props);
@@ -31,7 +32,7 @@ export default class Admin extends Component<any, AdminTemplate> {
     }
 
     componentWillUnmount() {
-        this.socket.close();
+        socket.close();
     }
 
     public async componentDidMount() { // Checks if the entering user is an admin. If no data is available due to refresh/the server going down, different methods will occure.
@@ -40,7 +41,7 @@ export default class Admin extends Component<any, AdminTemplate> {
         if (localStorage.getItem("key") != null) {
             if (store.getState().userType === "admin") { // Checks if user is an admin. Also works as a countermeasurement for refreshes or the server going down and then up again.
                 this.updateVacations();
-                this.socket.on('changedvacations', (data : any) => {
+                socket.on('changedvacations', (data : any) => {
                     this.setState({
                         vacations : data
                     })
@@ -56,7 +57,7 @@ export default class Admin extends Component<any, AdminTemplate> {
                         store.dispatch({ type: ActionType.userType, payload: response.data.userType});
         
                         this.updateVacations();
-                        this.socket.on('changedvacations', (data : any) => {
+                        socket.on('changedvacations', (data : any) => {
                             this.setState({
                                 vacations : data
                             })
@@ -118,7 +119,7 @@ export default class Admin extends Component<any, AdminTemplate> {
 
         try {
             await axiosService.delete<SuccessfulVacationResponse>("/vacations/deletevacation/" + vacation_id);
-            this.socket.emit('deletevacation', { vacation_id: vacation_id });
+            socket.emit('deletevacation', { vacation_id: vacation_id });
 
             this.updateVacations();
         }

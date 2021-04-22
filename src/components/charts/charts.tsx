@@ -3,11 +3,12 @@ import "./charts.css";
 import { NavLink } from 'react-router-dom';
 import {Bar} from 'react-chartjs-2';
 import { store } from '../../redux/store';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import { ChartInfo } from '../../models/ChartInfo';
 import axiosService from '../../services/axiosService';
 import { UserType } from '../../models/UserType';
 import { ActionType } from '../../redux/action-type';
+import socket from '../../services/socketService';
 
 
 interface ChartTemplate {
@@ -18,7 +19,7 @@ interface ChartTemplate {
 
 export default class Charts extends Component<any, ChartTemplate>  {
 
-    socket = io('http://localhost:3002');
+    // socket = io('http://localhost:3002');
 
     chartDetailsHelper = { // Required information for chartJS. Used to constantly update the state that the chart attempts to use.
         labels: [""],
@@ -63,7 +64,7 @@ export default class Charts extends Component<any, ChartTemplate>  {
     }
 
     componentWillUnmount() {
-        this.socket.close();
+        socket.close();
     }
 
     public async componentDidMount() { // Checks if the entering user is an admin. If no data is available due to refresh/the server going down, different methods will occure.
@@ -71,7 +72,7 @@ export default class Charts extends Component<any, ChartTemplate>  {
             if (store.getState().userType === "admin") { // Checks if user is an admin. Also works as a countermeasurement for refreshes or the server going down and then up again.
                 this.updateVacations();
     
-                this.socket.on('changedvacations', (data : any) => {
+                socket.on('changedvacations', (data : any) => {
         
                     this.updateVacations();
                 })
@@ -87,7 +88,7 @@ export default class Charts extends Component<any, ChartTemplate>  {
         
                         this.updateVacations();
         
-                        this.socket.on('changedvacations', (data : any) => {
+                        socket.on('changedvacations', (data : any) => {
                 
                             this.updateVacations();
                         })

@@ -9,11 +9,12 @@ import "./editvacation.css";
 import { VacationUpdate } from '../../models/VacationUpdate';
 import axiosService from '../../services/axiosService';
 import { SuccessfulVacationResponse } from '../../models/SuccessfulVacationResponse';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import { store } from '../../redux/store';
 import { TakenDescriptions } from '../../models/TakenDescriptions';
+import socket from '../../services/socketService';
 
-const socket = io('http://localhost:3002');
+// const socket = io('http://localhost:3002');
 
 interface EditVacationTemplate {
     vacation_id: number,

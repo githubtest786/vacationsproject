@@ -1,4 +1,5 @@
 export enum ActionType {
     editChosenVacation,
-    userType
+    userType,
+    updateVacations
 }
